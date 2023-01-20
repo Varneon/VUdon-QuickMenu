@@ -1,5 +1,5 @@
 {
-    "name": "Varneon.VUdon.RepositoryTemplate.Runtime",
+    "name": "Varneon.VUdon.QuickMenu.Runtime",
     "references": [
         "UdonSharp.Runtime",
         "VRC.Udon"
