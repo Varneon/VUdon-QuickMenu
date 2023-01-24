@@ -2,7 +2,11 @@
     "name": "Varneon.VUdon.QuickMenu.Runtime",
     "references": [
         "UdonSharp.Runtime",
-        "VRC.Udon"
+        "VRC.Udon",
+        "VRC.Udon.Serialization.OdinSerializer",
+        "Unity.TextMeshPro",
+        "Varneon.VUdon.ArrayExtensions.Runtime",
+        "Varneon.VUdon.Menus.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
