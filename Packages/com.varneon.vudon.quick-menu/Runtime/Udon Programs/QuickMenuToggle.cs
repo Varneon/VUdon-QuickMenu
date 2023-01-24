@@ -16,14 +16,14 @@ namespace Varneon.VUdon.QuickMenu
         [SerializeField]
         private TextMeshProUGUI leftLabel, rightLabel;
 
-        public bool State
+        public bool Value
         {
-            get => state;
+            get => _value;
             set
             {
-                if(state != value)
+                if(_value != value)
                 {
-                    state = value;
+                    _value = value;
 
                     OnValueChanged();
                 }
@@ -31,29 +31,29 @@ namespace Varneon.VUdon.QuickMenu
         }
 
         [SerializeField, HideInInspector]
-        private bool state;
+        private bool _value;
 
         public override bool OnClick()
         {
-            State ^= true;
+            Value ^= true;
 
             return true;
         }
 
         public override bool OnClickRight()
         {
-            if (State) { return false; }
+            if (Value) { return false; }
 
-            State = true;
+            Value = true;
 
             return true;
         }
 
         public override bool OnClickLeft()
         {
-            if (!State) { return false; }
+            if (!Value) { return false; }
 
-            State = false;
+            Value = false;
 
             return true;
         }
@@ -62,13 +62,13 @@ namespace Varneon.VUdon.QuickMenu
         {
             RefreshHighlights();
 
-            if (_callbackReceiver) { _callbackReceiver.OnMenuToggleValueChanged(_path, State); }
+            if (_callbackReceiver) { _callbackReceiver.OnMenuToggleValueChanged(_path, Value); }
         }
 
         private void RefreshHighlights()
         {
-            leftElement.color = State ? defaultOptionColor : (Selected ? highlightedOptionColor : activeOptionColor);
-            rightElement.color = State ? (Selected ? highlightedOptionColor : activeOptionColor) : defaultOptionColor;
+            leftElement.color = Value ? defaultOptionColor : (Selected ? highlightedOptionColor : activeOptionColor);
+            rightElement.color = Value ? (Selected ? highlightedOptionColor : activeOptionColor) : defaultOptionColor;
         }
 
         protected override void OnSelectedStateChanged(bool selected)
@@ -80,7 +80,7 @@ namespace Varneon.VUdon.QuickMenu
         {
             RegisterAbstractProperties(itemPath, callbackReceiver, tooltip);
 
-            state = defaultValue;
+            _value = defaultValue;
 
             RefreshHighlights();
 

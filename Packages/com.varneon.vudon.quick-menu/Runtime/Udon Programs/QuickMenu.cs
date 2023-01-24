@@ -600,7 +600,7 @@ namespace Varneon.VUdon.QuickMenu
         {
             if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
 
-            ((QuickMenuToggle)menuItem).State = value;
+            ((QuickMenuToggle)menuItem).Value = value;
 
             return true;
         }
