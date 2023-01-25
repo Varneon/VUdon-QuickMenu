@@ -75,6 +75,16 @@ namespace Varneon.VUdon.QuickMenu
             if (_callbackReceiver) { _callbackReceiver.OnMenuOptionValueChanged(_path, Value); }
         }
 
+        public void OnBeginValueEdit()
+        {
+            if (_callbackReceiver) { _callbackReceiver.OnMenuOptionBeginValueEdit(_path); }
+        }
+
+        public void OnEndValueEdit()
+        {
+            if (_callbackReceiver) { _callbackReceiver.OnMenuOptionEndValueEdit(_path); }
+        }
+
         private void UpdateOptionLabel()
         {
             optionLabel.text = _options[Value];

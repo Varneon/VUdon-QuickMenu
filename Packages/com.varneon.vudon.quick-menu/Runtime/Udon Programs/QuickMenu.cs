@@ -207,6 +207,52 @@ namespace Varneon.VUdon.QuickMenu
 
         private float horizontalBuildup;
 
+        private int HorizontalDesktopNavigation
+        {
+            get => horizontalDesktopNavigation;
+            set
+            {
+                if(horizontalDesktopNavigation != value)
+                {
+                    horizontalDesktopNavigation = value;
+
+                    holdingHorizontalNavigation = horizontalDesktopNavigation != 0;
+
+                    switch (horizontalDesktopNavigation)
+                    {
+                        case 0:
+                            switch (selectedItemType)
+                            {
+                                case ItemType.Slider:
+                                    ((QuickMenuSlider)selectedItem).OnEndValueEdit();
+                                    break;
+                                case ItemType.Option:
+                                    ((QuickMenuOption)selectedItem).OnEndValueEdit();
+                                    break;
+                            }
+                            break;
+                        default:
+                            switch (selectedItemType)
+                            {
+                                case ItemType.Slider:
+                                    ((QuickMenuSlider)selectedItem).OnBeginValueEdit();
+                                    break;
+                                case ItemType.Option:
+                                    ((QuickMenuOption)selectedItem).OnBeginValueEdit();
+                                    break;
+                            }
+                            break;
+                    }
+
+                    horizontalBuildup = 0f;
+                }
+            }
+        }
+
+        private int horizontalDesktopNavigation;
+
+        private bool holdingHorizontalNavigation;
+
         private float linearInputIncrement = 0.02f;
 
         private VRC_Pickup.PickupHand dominantPickupHand = VRC_Pickup.PickupHand.Right;
@@ -256,7 +302,10 @@ namespace Varneon.VUdon.QuickMenu
             {
                 if (Input.GetKeyDown(KeyCode.Q)) { ToggleQuickMenu(); }
 
-                if (open) { HandleDesktopInput(); }
+                if (open)
+                {
+                    HandleDesktopInput();
+                }
             }
         }
 
@@ -280,6 +329,7 @@ namespace Varneon.VUdon.QuickMenu
                     case ItemType.Slider:
                     case ItemType.Option:
                         TryAdjustRight();
+                        HorizontalDesktopNavigation = 1;
                         break;
                 }
             }
@@ -293,6 +343,7 @@ namespace Varneon.VUdon.QuickMenu
                     case ItemType.Slider:
                     case ItemType.Option:
                         TryAdjustLeft();
+                        HorizontalDesktopNavigation = -1;
                         break;
                 }
             }
@@ -303,6 +354,36 @@ namespace Varneon.VUdon.QuickMenu
             else if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 NavigateBack();
+            }
+
+            if (holdingHorizontalNavigation)
+            {
+                horizontalBuildup += Time.deltaTime;
+
+                if (horizontalBuildup > 0.5f)
+                {
+                    horizontalBuildup -= 0.2f;
+
+                    switch (horizontalDesktopNavigation)
+                    {
+                        case -1:
+                            TryAdjustLeft();
+                            break;
+                        case 1:
+                            TryAdjustRight();
+                            break;
+                    }
+                }
+
+                switch (horizontalDesktopNavigation)
+                {
+                    case -1:
+                        if (Input.GetKeyUp(KeyCode.LeftArrow)) { HorizontalDesktopNavigation = 0; }
+                        break;
+                    case 1:
+                        if (Input.GetKeyUp(KeyCode.RightArrow)) { HorizontalDesktopNavigation = 0; }
+                        break;
+                }
             }
         }
 
@@ -429,6 +510,31 @@ namespace Varneon.VUdon.QuickMenu
             editingVRValue = true;
 
             linearInputIncrement = selectedItemType == ItemType.Slider ? 0.02f : 0.1f;
+
+            switch (selectedItemType)
+            {
+                case ItemType.Slider:
+                    ((QuickMenuSlider)selectedItem).OnBeginValueEdit();
+                    break;
+                case ItemType.Option:
+                    ((QuickMenuOption)selectedItem).OnBeginValueEdit();
+                    break;
+            }
+        }
+
+        private void EndVRValueEditing()
+        {
+            editingVRValue = false;
+
+            switch (selectedItemType)
+            {
+                case ItemType.Slider:
+                    ((QuickMenuSlider)selectedItem).OnEndValueEdit();
+                    break;
+                case ItemType.Option:
+                    ((QuickMenuOption)selectedItem).OnEndValueEdit();
+                    break;
+            }
         }
 
         private void HandleVRValueEditingInput()
@@ -760,7 +866,7 @@ namespace Varneon.VUdon.QuickMenu
                 {
                     if(args.handType == dominantHandType)
                     {
-                        if (editingVRValue) { editingVRValue = false; }
+                        if (editingVRValue) { EndVRValueEditing(); }
                     }
 
                     //switch (args.handType)

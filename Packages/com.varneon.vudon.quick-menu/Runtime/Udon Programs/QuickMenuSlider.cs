@@ -81,6 +81,16 @@ namespace Varneon.VUdon.QuickMenu
             if (_callbackReceiver) { _callbackReceiver.OnMenuSliderValueChanged(_path, Value); }
         }
 
+        public void OnBeginValueEdit()
+        {
+            if (_callbackReceiver) { _callbackReceiver.OnMenuSliderBeginValueEdit(_path); }
+        }
+
+        public void OnEndValueEdit()
+        {
+            if (_callbackReceiver) { _callbackReceiver.OnMenuSliderEndValueEdit(_path); }
+        }
+
         private void UpdateValueLabel()
         {
             valueLabel.text = $"{Value} {_unit}";
