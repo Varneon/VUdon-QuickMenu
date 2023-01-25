@@ -33,6 +33,13 @@ namespace Varneon.VUdon.QuickMenu
         [SerializeField, HideInInspector]
         private bool _value;
 
+        public void SetValueWithoutNotify(bool value)
+        {
+            _value = value;
+
+            RefreshHighlights();
+        }
+
         public override bool OnClick()
         {
             Value ^= true;

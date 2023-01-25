@@ -36,6 +36,15 @@ namespace Varneon.VUdon.QuickMenu
         [SerializeField, HideInInspector]
         private float _value;
 
+        public void SetValueWithoutNotify(float value)
+        {
+            _value = value;
+
+            UpdateValueLabel();
+
+            RefreshGraphics();
+        }
+
         [SerializeField, HideInInspector]
         private float _minValue, _maxValue;
 

@@ -39,6 +39,15 @@ namespace Varneon.VUdon.QuickMenu
         [SerializeField, HideInInspector]
         private int _value;
 
+        public void SetValueWithoutNotify(int value)
+        {
+            _value = value;
+
+            UpdateOptionLabel();
+
+            RefreshGraphics();
+        }
+
         public override bool OnClickRight()
         {
             if (Value >= _optionCount - 1) { return false; }
