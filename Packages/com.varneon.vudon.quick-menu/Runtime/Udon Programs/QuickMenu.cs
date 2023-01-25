@@ -623,6 +623,33 @@ namespace Varneon.VUdon.QuickMenu
             return true;
         }
 
+        public override bool TrySetToggleValueWithoutNotify(string path, bool value)
+        {
+            if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
+
+            ((QuickMenuToggle)menuItem).SetValueWithoutNotify(value);
+
+            return true;
+        }
+
+        public override bool TrySetOptionValueWithoutNotify(string path, int value)
+        {
+            if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
+
+            ((QuickMenuOption)menuItem).SetValueWithoutNotify(value);
+
+            return true;
+        }
+
+        public override bool TrySetSliderValueWithoutNotify(string path, float value)
+        {
+            if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
+
+            ((QuickMenuSlider)menuItem).SetValueWithoutNotify(value);
+
+            return true;
+        }
+
         private QuickMenuFolderContainer GetFolderContainer(string path, out int folderIndex)
         {
             if (string.IsNullOrEmpty(path)) { folderIndex = 0; return defaultFolderContainer; }
