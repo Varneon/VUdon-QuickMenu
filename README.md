@@ -1,10 +1,17 @@
+> # :construction: Quick Menu is currently in development.
+> This prefab doesn't have documentation yet and user support won't be offered.
+
 <div>
 
 # [VUdon](https://github.com/Varneon/VUdon) - Quick Menu [![GitHub Repo stars](https://img.shields.io/github/stars/Varneon/VUdon-QuickMenu?style=flat&label=Stars)](https://github.com/Varneon/VUdon-QuickMenu/stargazers) [![GitHub all releases](https://img.shields.io/github/downloads/Varneon/VUdon-QuickMenu/total?color=blue&label=Downloads&style=flat)](https://github.com/Varneon/VUdon-QuickMenu/releases) [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/Varneon/VUdon-QuickMenu?color=blue&label=Release&sort=semver&style=flat)](https://github.com/Varneon/VUdon-QuickMenu/releases/latest)
 
 </div>
 
-HUD quick menu prefab for VRChat worlds
+HUD quick menu prefab for VRChat worlds.
+
+Built on top of the abstract menu framework, [VUdon - Menus](https://github.com/Varneon/VUdon-Menus).
+
+Demo: https://twitter.com/Varneon/status/1615424177447571463
 
 # Installation
 
