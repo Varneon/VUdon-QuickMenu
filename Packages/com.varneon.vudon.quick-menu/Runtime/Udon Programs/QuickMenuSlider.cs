@@ -26,7 +26,9 @@ namespace Varneon.VUdon.QuickMenu
             {
                 if (_value != value)
                 {
-                    _value = value;
+                    currentStep = GetCurrentStep(value);
+
+                    _value = _fraction * currentStep;
 
                     OnValueChanged();
                 }
@@ -36,9 +38,13 @@ namespace Varneon.VUdon.QuickMenu
         [SerializeField, HideInInspector]
         private float _value;
 
+        private int currentStep;
+
         public void SetValueWithoutNotify(float value)
         {
-            _value = value;
+            currentStep = GetCurrentStep(value);
+
+            _value = _fraction * currentStep;
 
             UpdateValueLabel();
 
@@ -58,7 +64,9 @@ namespace Varneon.VUdon.QuickMenu
         {
             if (Value >= _maxValue) { return false; }
 
-            Value += _fraction;
+            _value = _fraction * ++currentStep;
+
+            OnValueChanged();
 
             return true;
         }
@@ -67,7 +75,9 @@ namespace Varneon.VUdon.QuickMenu
         {
             if (Value <= _minValue) { return false; }
 
-            Value -= _fraction;
+            _value = _fraction * --currentStep;
+
+            OnValueChanged();
 
             return true;
         }
@@ -101,6 +111,11 @@ namespace Varneon.VUdon.QuickMenu
             slider.value = Value;
 
             sliderFill.color = Selected ? highlightedOptionColor : activeOptionColor;
+        }
+
+        private int GetCurrentStep(float value)
+        {
+            return Mathf.FloorToInt(Mathf.Clamp(value, _minValue, _maxValue) / _fraction);
         }
 
         protected override void OnSelectedStateChanged(bool selected)
