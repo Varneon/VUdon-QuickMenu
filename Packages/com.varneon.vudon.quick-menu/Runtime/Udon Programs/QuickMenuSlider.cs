@@ -38,6 +38,7 @@ namespace Varneon.VUdon.QuickMenu
         [SerializeField, HideInInspector]
         private float _value;
 
+        [SerializeField, HideInInspector]
         private int currentStep;
 
         public void SetValueWithoutNotify(float value)
@@ -141,9 +142,7 @@ namespace Varneon.VUdon.QuickMenu
 
             slider.maxValue = maxValue;
 
-            UpdateValueLabel();
-
-            RefreshGraphics();
+            SetValueWithoutNotify(_value);
 
             SetLabel(label);
         }
