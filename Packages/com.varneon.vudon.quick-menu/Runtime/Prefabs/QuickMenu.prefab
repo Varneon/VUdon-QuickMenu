@@ -405,7 +405,7 @@ MonoBehaviour:
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 7631281020878696317}
   m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 2
+  m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: -3
   m_VerticalScrollbarSpacing: 4
   m_OnValueChanged:
@@ -1311,7 +1311,7 @@ GameObject:
   - component: {fileID: 7631281020134619572}
   - component: {fileID: 7631281020134619573}
   m_Layer: 0
-  m_Name: QUICK_MENU
+  m_Name: QuickMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
