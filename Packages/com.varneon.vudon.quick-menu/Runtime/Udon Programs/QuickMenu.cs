@@ -665,6 +665,10 @@ namespace Varneon.VUdon.QuickMenu
 
             QuickMenuButton newButton = Instantiate(buttonItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuButton>();
 
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newButton.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
+
             items[folderIndex] = items[folderIndex].Add(newButton);
 
             newButton.Initialize(path, pathElements.LastOrDefault(), callbackReceiver, tooltip);
@@ -677,6 +681,10 @@ namespace Varneon.VUdon.QuickMenu
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
             QuickMenuToggle newOption = Instantiate(toggleItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuToggle>();
+
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newOption.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
 
             items[folderIndex] = items[folderIndex].Add(newOption);
 
@@ -691,6 +699,10 @@ namespace Varneon.VUdon.QuickMenu
 
             QuickMenuOption newToggle = Instantiate(optionItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuOption>();
 
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newToggle.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
+
             items[folderIndex] = items[folderIndex].Add(newToggle);
 
             newToggle.Initialize(path, pathElements.LastOrDefault(), optionNames, callbackReceiver, defaultValue, tooltip);
@@ -703,6 +715,10 @@ namespace Varneon.VUdon.QuickMenu
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
             QuickMenuSlider newSlider = Instantiate(sliderItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuSlider>();
+
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newSlider.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
 
             items[folderIndex] = items[folderIndex].Add(newSlider);
 
@@ -827,6 +843,10 @@ namespace Varneon.VUdon.QuickMenu
 
             QuickMenuFolderItem newFolderItem = Instantiate(folderItem.gameObject, parentContainer.transform, false).GetComponent<QuickMenuFolderItem>();
 
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newFolderItem.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
+
             newFolderItem.SetFolderPath(path);
 
             newFolderItem.SetTooltip(string.IsNullOrWhiteSpace(tooltip) ? path.Contains("/") ? path.Substring(path.LastIndexOf('/') + 1) : path : tooltip);
@@ -834,6 +854,10 @@ namespace Varneon.VUdon.QuickMenu
             items[folderIndex] = items[folderIndex].Add(newFolderItem);
 
             QuickMenuFolderContainer newFolderContainer = Instantiate(folderContainer.gameObject, itemContainer, false).GetComponent<QuickMenuFolderContainer>();
+
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newFolderContainer.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
 
             folders = folders.Add(newFolderContainer);
 
