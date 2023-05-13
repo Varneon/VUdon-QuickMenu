@@ -7,6 +7,7 @@ using Varneon.VUdon.ArrayExtensions;
 using Varneon.VUdon.Menus.Abstract;
 using Varneon.VUdon.QuickMenu.Abstract;
 using VRC.SDKBase;
+using VRC.Udon;
 using VRC.Udon.Common;
 
 namespace Varneon.VUdon.QuickMenu
@@ -199,6 +200,8 @@ namespace Varneon.VUdon.QuickMenu
 
         private int folderItemCount;
 
+        private bool hasMoreThanOneItemInFolder;
+
         private RectTransform scrollRectTransform;
 
         private RectTransform canvasRectTransform;
@@ -311,15 +314,11 @@ namespace Varneon.VUdon.QuickMenu
 
         private void HandleDesktopInput()
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                NavigateUp();
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                NavigateDown();
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            bool mouseHolding = Input.GetKey(KeyCode.Mouse0);
+
+            float scroll = Input.GetAxisRaw("Mouse Wheel");
+
+            if (Input.GetKeyDown(KeyCode.RightArrow) || (mouseHolding && scroll > 0.5f))
             {
                 switch (selectedItemType)
                 {
@@ -329,11 +328,11 @@ namespace Varneon.VUdon.QuickMenu
                     case ItemType.Slider:
                     case ItemType.Option:
                         TryAdjustRight();
-                        HorizontalDesktopNavigation = 1;
+                        if (Input.GetKey(KeyCode.RightArrow)) { HorizontalDesktopNavigation = 1; }
                         break;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) || (mouseHolding && scroll < -0.5f))
             {
                 switch (selectedItemType)
                 {
@@ -343,15 +342,23 @@ namespace Varneon.VUdon.QuickMenu
                     case ItemType.Slider:
                     case ItemType.Option:
                         TryAdjustLeft();
-                        HorizontalDesktopNavigation = -1;
+                        if (Input.GetKey(KeyCode.LeftArrow)) { HorizontalDesktopNavigation = -1; }
                         break;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.Return))
+            else if (hasMoreThanOneItemInFolder && (Input.GetKeyDown(KeyCode.UpArrow) || scroll > 0.5f))
+            {
+                NavigateUp();
+            }
+            else if (hasMoreThanOneItemInFolder && (Input.GetKeyDown(KeyCode.DownArrow) || scroll < -0.5f))
+            {
+                NavigateDown();
+            }
+            else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Mouse0))
             {
                 NavigateForward();
             }
-            else if (Input.GetKeyDown(KeyCode.Backspace))
+            else if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Mouse1))
             {
                 NavigateBack();
             }
@@ -566,6 +573,8 @@ namespace Varneon.VUdon.QuickMenu
             folderItemCount = folderItems.Length;
 
             isCurrentFolderEmpty = folderItemCount == 0;
+
+            hasMoreThanOneItemInFolder = folderItemCount > 1;
 
             currentFolderPath = folderPaths[folderIndex];
 
