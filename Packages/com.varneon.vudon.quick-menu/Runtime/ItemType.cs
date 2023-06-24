@@ -3,6 +3,7 @@
     public enum ItemType
     {
         None,
+        Back,
         Folder,
         Button,
         Toggle,
