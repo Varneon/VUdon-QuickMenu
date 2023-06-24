@@ -73,6 +73,9 @@ namespace Varneon.VUdon.QuickMenu
         private QuickMenuFolderItem folderItem;
 
         [SerializeField]
+        private QuickMenuBackButton backButtonItem;
+
+        [SerializeField]
         private QuickMenuButton buttonItem;
 
         [SerializeField]
@@ -422,6 +425,9 @@ namespace Varneon.VUdon.QuickMenu
                     sfxSource.PlayOneShot(audioClick);
 
                     TriggerAdjustHaptics();
+                    break;
+                case ItemType.Back:
+                    NavigateBack();
                     break;
                 case ItemType.Button:
                 case ItemType.Toggle:
@@ -862,6 +868,16 @@ namespace Varneon.VUdon.QuickMenu
             folders = folders.Add(newFolderContainer);
 
             newFolderContainer.SetPath(path);
+
+            QuickMenuBackButton newButton = Instantiate(backButtonItem.gameObject, newFolderContainer.transform, false).GetComponent<QuickMenuBackButton>();
+
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+            newButton.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+#endif
+
+            int newFolderIndex = items.Length - 1;
+
+            items[newFolderIndex] = items[newFolderIndex].Add(newButton);
         }
 
         public override void InputUse(bool value, UdonInputEventArgs args)
