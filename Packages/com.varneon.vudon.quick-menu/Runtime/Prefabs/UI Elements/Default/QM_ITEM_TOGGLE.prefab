@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: bcfaf44fdf49c32438ee78807a8bcde6, type: 2}
   m_Color: {r: 0.404, g: 0.404, b: 0.404, a: 0.5019608}
   m_RaycastTarget: 1
   m_Maskable: 1
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: bcfaf44fdf49c32438ee78807a8bcde6, type: 2}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_Maskable: 1
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_text: OFF
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 9ad269c99dcf42b7aedefd83dd5a7b9d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_text: ON
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 9ad269c99dcf42b7aedefd83dd5a7b9d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -466,11 +466,14 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 2696035015251654320}
   panelImage: {fileID: 1219998966877401915}
   label: {fileID: 8949116682881549273}
+  _callbackReceiver: {fileID: 0}
+  _path: 
+  _tooltip: 
   leftElement: {fileID: 1458227036}
   rightElement: {fileID: 860601628}
   leftLabel: {fileID: 1646713666}
   rightLabel: {fileID: 1859234848}
-  state: 0
+  _value: 0
 --- !u!1001 &5698663156331142604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -581,7 +584,7 @@ PrefabInstance:
     - target: {fileID: 3357051013252742129, guid: 4701214f147694d4e8fa6743e18425ae,
         type: 3}
       propertyPath: m_Name
-      value: QM_ITEM_TOGGLE Variant
+      value: QM_ITEM_TOGGLE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4701214f147694d4e8fa6743e18425ae, type: 3}

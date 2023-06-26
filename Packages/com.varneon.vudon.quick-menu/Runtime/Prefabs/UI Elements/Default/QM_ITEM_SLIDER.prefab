@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: bcfaf44fdf49c32438ee78807a8bcde6, type: 2}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_Maskable: 1
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_text: 75 %
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 9ad269c99dcf42b7aedefd83dd5a7b9d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: bcfaf44fdf49c32438ee78807a8bcde6, type: 2}
   m_Color: {r: 0.404, g: 0.404, b: 0.404, a: 0.5019608}
   m_RaycastTarget: 1
   m_Maskable: 1
@@ -430,12 +430,14 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 4934958945480318619}
   panelImage: {fileID: 3448774982359261648}
   label: {fileID: 4828820044999315762}
+  _callbackReceiver: {fileID: 0}
   _path: 
   _tooltip: 
   slider: {fileID: 707820921}
   sliderFill: {fileID: 719585905}
   valueLabel: {fileID: 460814165}
   _value: 0
+  currentStep: 0
   _minValue: 0
   _maxValue: 0
   _fraction: 0
@@ -576,7 +578,7 @@ PrefabInstance:
     - target: {fileID: 3357051013252742129, guid: 4701214f147694d4e8fa6743e18425ae,
         type: 3}
       propertyPath: m_Name
-      value: QM_ITEM_SLIDER Variant
+      value: QM_ITEM_SLIDER
       objectReference: {fileID: 0}
     - target: {fileID: 6916395886699048695, guid: 4701214f147694d4e8fa6743e18425ae,
         type: 3}
