@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UIOverlay
-  m_Shader: {fileID: 4800000, guid: fee26641220923f479c74191de4c6b21, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7ef980f909cad9f4badae3fa9ff0029c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
