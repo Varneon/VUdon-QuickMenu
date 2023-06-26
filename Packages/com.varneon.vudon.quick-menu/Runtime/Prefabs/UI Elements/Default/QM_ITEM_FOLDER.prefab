@@ -127,7 +127,7 @@ MonoBehaviour:
   _callbackReceiver: {fileID: 0}
   _path: 
   _tooltip: 
-  folderPath: 
+  arrow: {fileID: 6781846917458069123}
 --- !u!1001 &3058893276067134593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -243,7 +243,7 @@ PrefabInstance:
     - target: {fileID: 3357051013252742129, guid: 4701214f147694d4e8fa6743e18425ae,
         type: 3}
       propertyPath: m_Name
-      value: QM_ITEM_FOLDER Variant
+      value: QM_ITEM_FOLDER
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4701214f147694d4e8fa6743e18425ae, type: 3}

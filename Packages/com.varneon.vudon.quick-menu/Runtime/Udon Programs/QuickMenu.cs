@@ -100,7 +100,7 @@ namespace Varneon.VUdon.QuickMenu
 
         private QuickMenuFolderContainer currentFolderContainer;
 
-        private string currentFolderPath;
+        private string currentFolderPath = string.Empty;
 
         private bool isCurrentFolderEmpty;
 
@@ -417,10 +417,12 @@ namespace Varneon.VUdon.QuickMenu
 
         private void NavigateForward()
         {
+            if (!selectedItem.ItemEnabled) { return; }
+
             switch (selectedItemType)
             {
                 case ItemType.Folder:
-                    OpenFolder(((QuickMenuFolderItem)selectedItem).FolderPath);
+                    OpenFolder(((QuickMenuFolderItem)selectedItem).Path);
 
                     sfxSource.PlayOneShot(audioClick);
 
@@ -466,6 +468,8 @@ namespace Varneon.VUdon.QuickMenu
 
         private void TryClickRight()
         {
+            if (!selectedItem.ItemEnabled) { return; }
+
             if (selectedItem.OnClickRight())
             {
                 sfxSource.PlayOneShot(audioToggle);
@@ -474,6 +478,8 @@ namespace Varneon.VUdon.QuickMenu
 
         private void TryClickLeft()
         {
+            if (!selectedItem.ItemEnabled) { return; }
+
             if (selectedItem.OnClickLeft())
             {
                 sfxSource.PlayOneShot(audioToggle);
@@ -482,6 +488,8 @@ namespace Varneon.VUdon.QuickMenu
 
         private void TryAdjustRight()
         {
+            if (!selectedItem.ItemEnabled) { return; }
+
             if (selectedItem.OnClickRight())
             {
                 sfxSource.PlayOneShot(audioAdjust);
@@ -492,6 +500,8 @@ namespace Varneon.VUdon.QuickMenu
 
         private void TryAdjustLeft()
         {
+            if (!selectedItem.ItemEnabled) { return; }
+
             if (selectedItem.OnClickLeft())
             {
                 sfxSource.PlayOneShot(audioAdjust);
@@ -733,6 +743,45 @@ namespace Varneon.VUdon.QuickMenu
             return true;
         }
 
+        public override bool TrySetItemEnabled(string path, bool enabled, MenuEventCallbackReceiver callbackReceiver = null)
+        {
+            if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
+
+            menuItem.SetItemEnabledState(enabled);
+
+            return true;
+        }
+
+        public override bool TryRemoveItem(string path, MenuEventCallbackReceiver callbackReceiver = null)
+        {
+            if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
+
+            if (menuItem.Type == ItemType.Folder)
+            {
+                string folderPath = menuItem.Path;
+
+                QuickMenuFolderContainer container = GetFolderContainer(folderPath, out int folderIndex);
+
+                items = items.RemoveAt(folderIndex);
+
+                folders = folders.RemoveAt(folderIndex);
+
+                folderPaths = folderPaths.RemoveAt(folderIndex);
+
+                // If currently open folder is under the folder about to be removed, navigate back
+                if (currentFolderPath.StartsWith(folderPath))
+                {
+                    OpenFolder(GetContainingFolderPath(folderPath));
+
+                    SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 0);
+                }
+            }
+
+            RemoveItem(menuItem);
+
+            return true;
+        }
+
         public override bool TrySetToggleValue(string path, bool value)
         {
             if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
@@ -793,7 +842,7 @@ namespace Varneon.VUdon.QuickMenu
 
             folderIndex = folderPaths.IndexOf(path);
 
-            if(folderIndex == 0) { return null; }
+            if(folderIndex < 0) { return null; }
 
             return folders[folderIndex];
         }
@@ -837,6 +886,31 @@ namespace Varneon.VUdon.QuickMenu
             return false;
         }
 
+        private string GetContainingFolderPath(string path)
+        {
+            return path.Contains("/") ? path.Substring(0, path.LastIndexOf("/")) : string.Empty;
+        }
+
+        private void RemoveItem(QuickMenuItem menuItem)
+        {
+            string folderPath = GetContainingFolderPath(menuItem.Path);
+
+            GetFolderContainer(folderPath, out int folderIndex);
+
+            if(folderIndex < 0) { Debug.LogError("Couldn't remove item because containing folder wasn't found!"); return; }
+
+            items[folderIndex] = items[folderIndex].Remove(menuItem);
+
+            Destroy(menuItem.gameObject);
+
+            if (currentFolderPath.Equals(folderPath))
+            {
+                OpenFolder(currentFolderPath);
+
+                SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 0);
+            }
+        }
+
         private void AddFolder(string path, string tooltip = "")
         {
             items = items.Add(new QuickMenuItem[0]);
@@ -853,9 +927,7 @@ namespace Varneon.VUdon.QuickMenu
             newFolderItem.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
 #endif
 
-            newFolderItem.SetFolderPath(path);
-
-            newFolderItem.SetTooltip(string.IsNullOrWhiteSpace(tooltip) ? path.Contains("/") ? path.Substring(path.LastIndexOf('/') + 1) : path : tooltip);
+            newFolderItem.Initialize(path, string.IsNullOrWhiteSpace(tooltip) ? path.Contains("/") ? path.Substring(path.LastIndexOf('/') + 1) : path : tooltip);
 
             items[folderIndex] = items[folderIndex].Add(newFolderItem);
 

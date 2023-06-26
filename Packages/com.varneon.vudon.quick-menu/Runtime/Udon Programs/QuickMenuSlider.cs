@@ -111,7 +111,7 @@ namespace Varneon.VUdon.QuickMenu
         {
             slider.value = Value;
 
-            sliderFill.color = Selected ? highlightedOptionColor : activeOptionColor;
+            sliderFill.color = ItemEnabled ? (Selected ? highlightedOptionColor : activeOptionColor) : (Selected ? disabledHighlightedOptionColor : disabledOptionColor);
         }
 
         private int GetCurrentStep(float value)
@@ -122,6 +122,13 @@ namespace Varneon.VUdon.QuickMenu
         protected override void OnSelectedStateChanged(bool selected)
         {
             RefreshGraphics();
+        }
+
+        protected override void OnEnabledStateChanged(bool enabled)
+        {
+            RefreshGraphics();
+
+            valueLabel.color = enabled ? defaultContentColor : disabledContentColor;
         }
 
         internal void Initialize(string itemPath, string label, MenuEventCallbackReceiver callbackReceiver, float minValue = 0f, float maxValue = 100f, int steps = 10, string unit = "%", float defaultValue = 0f, string tooltip = "")

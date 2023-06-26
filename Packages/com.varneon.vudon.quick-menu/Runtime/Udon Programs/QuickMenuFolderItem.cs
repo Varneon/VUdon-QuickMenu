@@ -1,27 +1,26 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using Varneon.VUdon.QuickMenu.Abstract;
 
 namespace Varneon.VUdon.QuickMenu
 {
     public class QuickMenuFolderItem : QuickMenuItem
     {
+        [SerializeField]
+        private Image arrow;
+
         public override ItemType Type => ItemType.Folder;
 
-        public string FolderPath => folderPath;
-
-        [SerializeField, HideInInspector]
-        private string folderPath;
-
-        internal void SetFolderPath(string path)
+        internal void Initialize(string path, string tooltip)
         {
-            folderPath = path;
+            RegisterAbstractProperties(path, null, tooltip);
 
             SetLabel(path.Contains("/") ? path.Substring(path.LastIndexOf('/') + 1) : path);
         }
 
-        internal void SetTooltip(string tooltip)
+        protected override void OnEnabledStateChanged(bool enabled)
         {
-            _tooltip = tooltip;
+            arrow.color = enabled ? defaultContentColor : disabledContentColor;
         }
     }
 }

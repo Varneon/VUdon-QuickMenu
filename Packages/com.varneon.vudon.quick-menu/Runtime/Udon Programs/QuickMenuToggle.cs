@@ -83,6 +83,17 @@ namespace Varneon.VUdon.QuickMenu
             RefreshHighlights();
         }
 
+        protected override void OnEnabledStateChanged(bool enabled)
+        {
+            RefreshHighlights();
+
+            Color color = enabled ? defaultContentColor : disabledContentColor;
+
+            leftLabel.color = color;
+
+            rightLabel.color = color;
+        }
+
         internal void Initialize(string itemPath, string label, MenuEventCallbackReceiver callbackReceiver, bool defaultValue, string tooltip = "")
         {
             RegisterAbstractProperties(itemPath, callbackReceiver, tooltip);
