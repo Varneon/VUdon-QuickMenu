@@ -12,7 +12,7 @@
   "resolutionStrategy": "highestMinor",
   "dependencies": {
     "com.vrchat.udonsharp": "1.1.7",
-    "com.varneon.vudon.menus": "0.1.0-alpha.3"
+    "com.varneon.vudon.menus": "0.1.0-alpha.4"
   },
   "vpmDependencies": {
     "com.vrchat.udonsharp": ">=1.1.7 <2.0.0",
