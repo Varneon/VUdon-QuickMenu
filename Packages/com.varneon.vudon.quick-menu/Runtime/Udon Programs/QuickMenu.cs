@@ -24,9 +24,6 @@ namespace Varneon.VUdon.QuickMenu
         private GameObject canvas;
 
         [SerializeField]
-        private Transform vrTogglePoint;
-
-        [SerializeField]
         private TextMeshProUGUI greetingText;
 
         [SerializeField]
