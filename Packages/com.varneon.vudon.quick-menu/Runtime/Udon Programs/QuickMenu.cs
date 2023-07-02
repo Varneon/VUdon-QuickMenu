@@ -24,9 +24,6 @@ namespace Varneon.VUdon.QuickMenu
         private GameObject canvas;
 
         [SerializeField]
-        private Transform vrTogglePoint;
-
-        [SerializeField]
         private TextMeshProUGUI greetingText;
 
         [SerializeField]
@@ -562,7 +559,7 @@ namespace Varneon.VUdon.QuickMenu
 
         private void HandleVRValueEditingInput()
         {
-            Vector3 localHandPos = transform.InverseTransformPoint(localPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.RightHand).position);
+            Vector3 localHandPos = transform.InverseTransformPoint(localPlayer.GetTrackingData(dominantTrackingDataType).position);
 
             horizontalBuildup = (localHandPos - lastLocalHandPos).x;
 
@@ -958,17 +955,44 @@ namespace Varneon.VUdon.QuickMenu
             {
                 if (value)
                 {
-                    if(args.handType == dominantHandType)
+                    if (open)
                     {
-                        if (!TryToggleVRQuickMenu() && open)
+                        if (args.handType == dominantHandType)
                         {
-                            NavigateForward();
+                            if (!TryToggleVRQuickMenu())
+                            {
+                                NavigateForward();
+                            }
+                        }
+                        else
+                        {
+                            NavigateBack();
                         }
                     }
                     else
                     {
-                        if (open) { NavigateBack(); }
+                        dominantHandType = args.handType;
+
+                        dominantRightHand = dominantHandType == HandType.RIGHT;
+
+                        dominantTrackingDataType = dominantRightHand ? VRCPlayerApi.TrackingDataType.RightHand : VRCPlayerApi.TrackingDataType.LeftHand;
+
+                        dominantPickupHand = dominantRightHand ? VRC_Pickup.PickupHand.Right : VRC_Pickup.PickupHand.Left;
+
+                        TryToggleVRQuickMenu();
                     }
+
+                    //if(args.handType == dominantHandType)
+                    //{
+                    //    if (!TryToggleVRQuickMenu() && open)
+                    //    {
+                    //        NavigateForward();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (open) { NavigateBack(); }
+                    //}
 
                     //switch (args.handType)
                     //{
@@ -1005,7 +1029,15 @@ namespace Varneon.VUdon.QuickMenu
 
         public override void InputLookVertical(float value, UdonInputEventArgs args)
         {
-            if (vrEnabled && open)
+            if (vrEnabled && open && dominantRightHand)
+            {
+                NavigationDirection = Mathf.Round(value);
+            }
+        }
+
+        public override void InputMoveVertical(float value, UdonInputEventArgs args)
+        {
+            if (vrEnabled && open && (args.handType == dominantHandType))
             {
                 NavigationDirection = Mathf.Round(value);
             }
@@ -1018,11 +1050,11 @@ namespace Varneon.VUdon.QuickMenu
 
         private bool TryToggleVRQuickMenu()
         {
-            Vector3 handPos = Networking.LocalPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.RightHand).position;
+            Vector3 handPos = Networking.LocalPlayer.GetTrackingData(dominantTrackingDataType).position;
 
             localHandPos = transform.InverseTransformPoint(handPos);
 
-            if (Vector3.Magnitude(vrTogglePoint.position - handPos) < 0.15f)
+            if (Vector3.Magnitude(transform.TransformPoint(new Vector3(0.15f * (dominantHandType == HandType.RIGHT ? 1f : -1f), 0f, 0f)) - handPos) < 0.15f)
             {
                 ToggleQuickMenu();
 
