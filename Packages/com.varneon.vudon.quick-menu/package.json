@@ -1,7 +1,7 @@
 {
   "name": "com.varneon.vudon.quick-menu",
   "displayName": "VUdon - Quick Menu",
-  "version": "0.1.0-alpha.9",
+  "version": "0.1.0-alpha.10",
   "unity": "2019.4",
   "unityRelease": "29f1",
   "description": "HUD quick menu prefab for VRChat worlds",
@@ -11,13 +11,11 @@
   },
   "resolutionStrategy": "highestMinor",
   "dependencies": {
-    "com.vrchat.udonsharp": "1.1.7",
-    "com.varneon.vudon.array-extensions": "0.3.0",
-    "com.varneon.vudon.menus": "0.1.0-alpha.4"
+    "com.varneon.vudon.array-extensions": "0.3.1",
+    "com.varneon.vudon.menus": "0.1.0-alpha.5"
   },
   "vpmDependencies": {
-    "com.vrchat.udonsharp": ">=1.1.7 <2.0.0",
-    "com.varneon.vudon.array-extensions": ">=0.3.0",
-    "com.varneon.vudon.menus": ">=0.1.0-alpha.3 <1.0.0"
+    "com.varneon.vudon.array-extensions": ">=0.3.1",
+    "com.varneon.vudon.menus": ">=0.1.0-alpha.5 <1.0.0"
   }
 }
