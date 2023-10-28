@@ -177,6 +177,8 @@ namespace Varneon.VUdon.QuickMenu
                 {
                     navigationDirection = value;
 
+                    holdingVerticalNavigation = value != 0f;
+
                     switch (navigationDirection)
                     {
                         case -1:
@@ -186,6 +188,8 @@ namespace Varneon.VUdon.QuickMenu
                             NavigateUp();
                             break;
                     }
+
+                    verticalBuildup = 0f;
                 }
             }
         }
@@ -256,6 +260,28 @@ namespace Varneon.VUdon.QuickMenu
 
         private bool holdingHorizontalNavigation;
 
+        private float verticalBuildup;
+
+        private int VerticalDesktopNavigation
+        {
+            get => verticalDesktopNavigation;
+            set
+            {
+                if (verticalDesktopNavigation != value)
+                {
+                    verticalDesktopNavigation = value;
+
+                    holdingVerticalNavigation = verticalDesktopNavigation != 0;
+
+                    verticalBuildup = 0f;
+                }
+            }
+        }
+
+        private int verticalDesktopNavigation;
+
+        private bool holdingVerticalNavigation;
+
         private float linearInputIncrement = 0.02f;
 
         private VRC_Pickup.PickupHand dominantPickupHand = VRC_Pickup.PickupHand.Right;
@@ -300,6 +326,8 @@ namespace Varneon.VUdon.QuickMenu
             if (vrEnabled)
             {
                 if (editingVRValue) { HandleVRValueEditingInput(); }
+
+                if (holdingVerticalNavigation) { HandleVRAutoNavigation(); }
             }
             else
             {
@@ -346,14 +374,6 @@ namespace Varneon.VUdon.QuickMenu
                         break;
                 }
             }
-            else if (hasMoreThanOneItemInFolder && (Input.GetKeyDown(KeyCode.UpArrow) || scroll > 0.5f))
-            {
-                NavigateUp();
-            }
-            else if (hasMoreThanOneItemInFolder && (Input.GetKeyDown(KeyCode.DownArrow) || scroll < -0.5f))
-            {
-                NavigateDown();
-            }
             else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Mouse0))
             {
                 NavigateForward();
@@ -361,6 +381,26 @@ namespace Varneon.VUdon.QuickMenu
             else if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Mouse1))
             {
                 NavigateBack();
+            }
+            else if (hasMoreThanOneItemInFolder)
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    NavigateUp();
+
+                    VerticalDesktopNavigation = 1;
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    NavigateDown();
+
+                    VerticalDesktopNavigation = -1;
+                }
+                else if(Math.Abs(scroll) > 0.5f)
+                {
+                    if(scroll > 0.5f) { NavigateUp(); }
+                    else if(scroll < -0.5f) { NavigateDown(); }
+                }
             }
 
             if (holdingHorizontalNavigation)
@@ -389,6 +429,56 @@ namespace Varneon.VUdon.QuickMenu
                         break;
                     case 1:
                         if (Input.GetKeyUp(KeyCode.RightArrow)) { HorizontalDesktopNavigation = 0; }
+                        break;
+                }
+            }
+
+            if (holdingVerticalNavigation)
+            {
+                verticalBuildup += Time.deltaTime;
+
+                if (verticalBuildup > 0.5f)
+                {
+                    verticalBuildup -= 0.1f;
+
+                    switch (verticalDesktopNavigation)
+                    {
+                        case -1:
+                            NavigateDown();
+                            break;
+                        case 1:
+                            NavigateUp();
+                            break;
+                    }
+                }
+
+                switch (verticalDesktopNavigation)
+                {
+                    case -1:
+                        if (Input.GetKeyUp(KeyCode.DownArrow)) { VerticalDesktopNavigation = 0; }
+                        break;
+                    case 1:
+                        if (Input.GetKeyUp(KeyCode.UpArrow)) { VerticalDesktopNavigation = 0; }
+                        break;
+                }
+            }
+        }
+
+        private void HandleVRAutoNavigation()
+        {
+            verticalBuildup += Time.deltaTime;
+
+            if (verticalBuildup > 0.5f)
+            {
+                verticalBuildup -= 0.1f;
+
+                switch (navigationDirection)
+                {
+                    case -1:
+                        NavigateDown();
+                        break;
+                    case 1:
+                        NavigateUp();
                         break;
                 }
             }
@@ -1073,6 +1163,12 @@ namespace Varneon.VUdon.QuickMenu
             canvas.SetActive(open);
 
             sfxSource.PlayOneShot(open ? audioOpen : audioClose);
+
+            if (!open)
+            {
+                if (vrEnabled) { NavigationDirection = 0; }
+                else { VerticalDesktopNavigation = 0; }
+            }
 
             TriggerHaptics();
         }
