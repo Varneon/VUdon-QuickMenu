@@ -125,8 +125,6 @@ namespace Varneon.VUdon.QuickMenu
 
                 selectedItem = isCurrentFolderEmpty ? null : folderItems[selectedItemIndex];
 
-                SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 0);
-
                 if (selectedItem)
                 {
                     selectedItem.OnSelect();
@@ -208,7 +206,7 @@ namespace Varneon.VUdon.QuickMenu
 
         private RectTransform scrollRectTransform;
 
-        private RectTransform canvasRectTransform;
+        private RectTransform rootLayoutTransform;
 
         private bool editingVRValue;
 
@@ -304,11 +302,11 @@ namespace Varneon.VUdon.QuickMenu
         {
             vrEnabled = (localPlayer = Networking.LocalPlayer).IsUserInVR();
 
-            canvasRectTransform = GetComponentInChildren<Canvas>(true).GetComponent<RectTransform>();
+            rootLayoutTransform = (RectTransform)GetComponentInChildren<VerticalLayoutGroup>(true).transform;
 
             if (vrEnabled)
             {
-                canvasRectTransform.localPosition = new Vector3(0f, -0.1f, 1f);
+                ((RectTransform)GetComponentInChildren<Canvas>(true).transform).localPosition = new Vector3(0f, -0.1f, 1f);
             }
 
             scrollRectTransform = scrollRect.GetComponent<RectTransform>();
@@ -735,7 +733,7 @@ namespace Varneon.VUdon.QuickMenu
 
         public void RebuildCompleteLayout()
         {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(canvasRectTransform);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rootLayoutTransform);
         }
 
         private string[] PreRegisterItemPath(string path, out string currentPath)
@@ -847,7 +845,7 @@ namespace Varneon.VUdon.QuickMenu
             {
                 string folderPath = menuItem.Path;
 
-                QuickMenuFolderContainer container = GetFolderContainer(folderPath, out int folderIndex);
+                GetFolderContainer(folderPath, out int folderIndex);
 
                 items = items.RemoveAt(folderIndex);
 
@@ -860,7 +858,7 @@ namespace Varneon.VUdon.QuickMenu
                 {
                     OpenFolder(GetContainingFolderPath(folderPath));
 
-                    SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 0);
+                    RebuildCompleteLayout();
                 }
             }
 
@@ -992,10 +990,15 @@ namespace Varneon.VUdon.QuickMenu
 
             if (currentFolderPath.Equals(folderPath))
             {
-                OpenFolder(currentFolderPath);
-
-                SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 0);
+                SendCustomEventDelayedFrames(nameof(RebuildFolderAfterItemRemove), 1);
             }
+        }
+
+        public void RebuildFolderAfterItemRemove()
+        {
+            OpenFolder(currentFolderPath);
+
+            RebuildCompleteLayout();
         }
 
         private void AddFolder(string path, string tooltip = "")
@@ -1168,6 +1171,10 @@ namespace Varneon.VUdon.QuickMenu
             {
                 if (vrEnabled) { NavigationDirection = 0; }
                 else { VerticalDesktopNavigation = 0; }
+            }
+            else
+            {
+                SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 1);
             }
 
             TriggerHaptics();
