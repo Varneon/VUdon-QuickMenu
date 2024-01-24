@@ -223,31 +223,7 @@ namespace Varneon.VUdon.QuickMenu
 
                     holdingHorizontalNavigation = horizontalDesktopNavigation != 0;
 
-                    switch (horizontalDesktopNavigation)
-                    {
-                        case 0:
-                            switch (selectedItemType)
-                            {
-                                case ItemType.Slider:
-                                    ((QuickMenuSlider)selectedItem).OnEndValueEdit();
-                                    break;
-                                case ItemType.Option:
-                                    ((QuickMenuOption)selectedItem).OnEndValueEdit();
-                                    break;
-                            }
-                            break;
-                        default:
-                            switch (selectedItemType)
-                            {
-                                case ItemType.Slider:
-                                    ((QuickMenuSlider)selectedItem).OnBeginValueEdit();
-                                    break;
-                                case ItemType.Option:
-                                    ((QuickMenuOption)selectedItem).OnBeginValueEdit();
-                                    break;
-                            }
-                            break;
-                    }
+                    TryInvokeAdjustBeginAndEndCallbacks(horizontalDesktopNavigation);
 
                     horizontalBuildup = 0f;
                 }
@@ -257,6 +233,8 @@ namespace Varneon.VUdon.QuickMenu
         private int horizontalDesktopNavigation;
 
         private bool holdingHorizontalNavigation;
+
+        private bool adjustingWithMouse;
 
         private float verticalBuildup;
 
@@ -355,6 +333,7 @@ namespace Varneon.VUdon.QuickMenu
                     case ItemType.Option:
                         TryAdjustRight();
                         if (Input.GetKey(KeyCode.RightArrow)) { HorizontalDesktopNavigation = 1; }
+                        else if(!adjustingWithMouse) { adjustingWithMouse = true; TryInvokeAdjustBeginAndEndCallbacks(1); }
                         break;
                 }
             }
@@ -369,6 +348,7 @@ namespace Varneon.VUdon.QuickMenu
                     case ItemType.Option:
                         TryAdjustLeft();
                         if (Input.GetKey(KeyCode.LeftArrow)) { HorizontalDesktopNavigation = -1; }
+                        else if (!adjustingWithMouse) { adjustingWithMouse = true; TryInvokeAdjustBeginAndEndCallbacks(-1); }
                         break;
                 }
             }
@@ -379,6 +359,12 @@ namespace Varneon.VUdon.QuickMenu
             else if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Mouse1))
             {
                 NavigateBack();
+            }
+            else if(adjustingWithMouse && Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                adjustingWithMouse = false;
+
+                TryInvokeAdjustBeginAndEndCallbacks(0);
             }
             else if (hasMoreThanOneItemInFolder)
             {
@@ -459,6 +445,35 @@ namespace Varneon.VUdon.QuickMenu
                         if (Input.GetKeyUp(KeyCode.UpArrow)) { VerticalDesktopNavigation = 0; }
                         break;
                 }
+            }
+        }
+
+        private void TryInvokeAdjustBeginAndEndCallbacks(int horizontalNavigation)
+        {
+            switch (horizontalNavigation)
+            {
+                case 0:
+                    switch (selectedItemType)
+                    {
+                        case ItemType.Slider:
+                            ((QuickMenuSlider)selectedItem).OnEndValueEdit();
+                            break;
+                        case ItemType.Option:
+                            ((QuickMenuOption)selectedItem).OnEndValueEdit();
+                            break;
+                    }
+                    break;
+                default:
+                    switch (selectedItemType)
+                    {
+                        case ItemType.Slider:
+                            ((QuickMenuSlider)selectedItem).OnBeginValueEdit();
+                            break;
+                        case ItemType.Option:
+                            ((QuickMenuOption)selectedItem).OnBeginValueEdit();
+                            break;
+                    }
+                    break;
             }
         }
 
