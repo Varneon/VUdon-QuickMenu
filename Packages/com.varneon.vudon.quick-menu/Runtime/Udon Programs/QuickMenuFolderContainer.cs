@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Varneon.VUdon.QuickMenu
 {
+    [AddComponentMenu("")]
+    [ExcludeFromPreset]
+    [DisallowMultipleComponent]
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class QuickMenuFolderContainer : UdonSharpBehaviour
     {

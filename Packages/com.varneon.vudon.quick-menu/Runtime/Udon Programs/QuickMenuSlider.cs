@@ -6,6 +6,9 @@ using Varneon.VUdon.QuickMenu.Abstract;
 
 namespace Varneon.VUdon.QuickMenu
 {
+    [AddComponentMenu("")]
+    [ExcludeFromPreset]
+    [DisallowMultipleComponent]
     public class QuickMenuSlider : QuickMenuItem
     {
         public override ItemType Type => ItemType.Slider;
@@ -141,7 +144,7 @@ namespace Varneon.VUdon.QuickMenu
 
             _maxValue = maxValue;
 
-            _fraction = (maxValue - minValue) / steps;
+            _fraction = (maxValue - minValue) / (steps - 1);
 
             _unit = unit;
 
