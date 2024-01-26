@@ -1,8 +1,12 @@
-﻿using Varneon.VUdon.Menus.Abstract;
+﻿using UnityEngine;
+using Varneon.VUdon.Menus.Abstract;
 using Varneon.VUdon.QuickMenu.Abstract;
 
 namespace Varneon.VUdon.QuickMenu
 {
+    [AddComponentMenu("")]
+    [ExcludeFromPreset]
+    [DisallowMultipleComponent]
     public class QuickMenuButton : QuickMenuItem
     {
         public override ItemType Type => ItemType.Button;

@@ -6,6 +6,9 @@ using Varneon.VUdon.QuickMenu.Abstract;
 
 namespace Varneon.VUdon.QuickMenu
 {
+    [AddComponentMenu("")]
+    [ExcludeFromPreset]
+    [DisallowMultipleComponent]
     public class QuickMenuOption : QuickMenuItem
     {
         public override ItemType Type => ItemType.Option;
