@@ -12,6 +12,8 @@ using VRC.Udon.Common;
 
 namespace Varneon.VUdon.QuickMenu
 {
+    [AddComponentMenu("")]
+    [DisallowMultipleComponent]
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class QuickMenu : MenuProvider
     {

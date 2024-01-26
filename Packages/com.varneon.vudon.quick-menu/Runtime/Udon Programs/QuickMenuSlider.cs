@@ -6,6 +6,9 @@ using Varneon.VUdon.QuickMenu.Abstract;
 
 namespace Varneon.VUdon.QuickMenu
 {
+    [AddComponentMenu("")]
+    [ExcludeFromPreset]
+    [DisallowMultipleComponent]
     public class QuickMenuSlider : QuickMenuItem
     {
         public override ItemType Type => ItemType.Slider;
