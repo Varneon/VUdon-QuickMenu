@@ -141,7 +141,7 @@ namespace Varneon.VUdon.QuickMenu
 
             _maxValue = maxValue;
 
-            _fraction = (maxValue - minValue) / steps;
+            _fraction = (maxValue - minValue) / (steps - 1);
 
             _unit = unit;
 
