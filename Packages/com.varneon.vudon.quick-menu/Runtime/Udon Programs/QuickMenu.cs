@@ -806,17 +806,17 @@ namespace Varneon.VUdon.QuickMenu
         {
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
-            QuickMenuToggle newOption = Instantiate(toggleItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuToggle>();
+            QuickMenuToggle newToggle = Instantiate(toggleItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuToggle>();
 
 #if UNITY_EDITOR && !COMPILER_UDONSHARP
-            newOption.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+            newToggle.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
 #endif
 
-            items[folderIndex] = items[folderIndex].Add(newOption);
+            items[folderIndex] = items[folderIndex].Add(newToggle);
 
-            newOption.Initialize(path, pathElements.LastOrDefault(), callbackReceiver, defaultValue, tooltip);
+            newToggle.Initialize(path, pathElements.LastOrDefault(), callbackReceiver, defaultValue, tooltip);
 
-            if (!enabled) { newOption.SetItemEnabledState(false); }
+            if (!enabled) { newToggle.SetItemEnabledState(false); }
 
             return true;
         }
@@ -828,17 +828,17 @@ namespace Varneon.VUdon.QuickMenu
         {
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
-            QuickMenuOption newToggle = Instantiate(optionItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuOption>();
+            QuickMenuOption newOption = Instantiate(optionItem.gameObject, GetFolderContainer(currentPath, out int folderIndex).transform, false).GetComponent<QuickMenuOption>();
 
 #if UNITY_EDITOR && !COMPILER_UDONSHARP
-            newToggle.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
+            newOption.GetComponent<UdonBehaviour>().SyncMethod = Networking.SyncType.None;
 #endif
 
-            items[folderIndex] = items[folderIndex].Add(newToggle);
+            items[folderIndex] = items[folderIndex].Add(newOption);
 
-            newToggle.Initialize(path, pathElements.LastOrDefault(), optionNames, callbackReceiver, defaultValue, tooltip);
+            newOption.Initialize(path, pathElements.LastOrDefault(), optionNames, callbackReceiver, defaultValue, tooltip);
 
-            if (!enabled) { newToggle.SetItemEnabledState(false); }
+            if (!enabled) { newOption.SetItemEnabledState(false); }
 
             return true;
         }
