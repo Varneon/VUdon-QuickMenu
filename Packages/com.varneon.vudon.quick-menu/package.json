@@ -12,10 +12,10 @@
   "resolutionStrategy": "highestMinor",
   "dependencies": {
     "com.varneon.vudon.array-extensions": "0.3.1",
-    "com.varneon.vudon.menus": "0.1.0-alpha.5"
+    "com.varneon.vudon.menus": "0.1.0-alpha.7"
   },
   "vpmDependencies": {
     "com.varneon.vudon.array-extensions": ">=0.3.1",
-    "com.varneon.vudon.menus": ">=0.1.0-alpha.5 <1.0.0"
+    "com.varneon.vudon.menus": ">=0.1.0-alpha.7 <1.0.0"
   }
 }

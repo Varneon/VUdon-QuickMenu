@@ -95,14 +95,21 @@ namespace Varneon.VUdon.QuickMenu
 
         private void RefreshGraphics()
         {
-            leftArrow.color = Value > 0 ? new Color(0.8f, 0.8f, 0.8f) : new Color(0.3f, 0.3f, 0.3f);
-            rightArrow.color = (Value < _optionCount - 1) ? new Color(0.8f, 0.8f, 0.8f) : new Color(0.3f, 0.3f, 0.3f);
+            leftArrow.color = (Value > 0 && ItemEnabled) ? defaultContentColor : disabledContentColor;
+            rightArrow.color = ((Value < _optionCount - 1) && ItemEnabled) ? defaultContentColor : disabledContentColor;
             optionPanel.color = Selected ? highlightedOptionColor : activeOptionColor;
         }
 
         protected override void OnSelectedStateChanged(bool selected)
         {
             RefreshGraphics();
+        }
+
+        protected override void OnEnabledStateChanged(bool enabled)
+        {
+            RefreshGraphics();
+
+            optionLabel.color = enabled ? defaultContentColor : disabledContentColor;
         }
 
         internal void Initialize(string itemPath, string label, string[] options, MenuEventCallbackReceiver callbackReceiver, int defaultValue, string tooltip = "")

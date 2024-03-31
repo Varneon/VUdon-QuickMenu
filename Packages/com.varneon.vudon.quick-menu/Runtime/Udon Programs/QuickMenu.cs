@@ -777,7 +777,10 @@ namespace Varneon.VUdon.QuickMenu
             return pathElements;
         }
 
+        [Obsolete]
         public override bool TryRegisterButton(string path, MenuEventCallbackReceiver callbackReceiver, string tooltip = "")
+            => TryRegisterButton(path, callbackReceiver, tooltip, true);
+        public override bool TryRegisterButton(string path, MenuEventCallbackReceiver callbackReceiver, string tooltip = "", bool enabled = true)
         {
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
@@ -791,10 +794,15 @@ namespace Varneon.VUdon.QuickMenu
 
             newButton.Initialize(path, pathElements.LastOrDefault(), callbackReceiver, tooltip);
 
+            if (!enabled) { newButton.SetItemEnabledState(false); }
+
             return true;
         }
 
+        [Obsolete]
         public override bool TryRegisterToggle(string path, MenuEventCallbackReceiver callbackReceiver, bool defaultValue, string offOptionName = "Off", string onOptionName = "On", string tooltip = "")
+            => TryRegisterToggle(path, callbackReceiver, defaultValue, offOptionName, onOptionName, tooltip, true);
+        public override bool TryRegisterToggle(string path, MenuEventCallbackReceiver callbackReceiver, bool defaultValue, string offOptionName = "Off", string onOptionName = "On", string tooltip = "", bool enabled = true)
         {
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
@@ -808,10 +816,15 @@ namespace Varneon.VUdon.QuickMenu
 
             newOption.Initialize(path, pathElements.LastOrDefault(), callbackReceiver, defaultValue, tooltip);
 
+            if (!enabled) { newOption.SetItemEnabledState(false); }
+
             return true;
         }
 
+        [Obsolete]
         public override bool TryRegisterOption(string path, MenuEventCallbackReceiver callbackReceiver, string[] optionNames, int defaultValue, string tooltip = "")
+            => TryRegisterOption(path, callbackReceiver, optionNames, defaultValue, tooltip, enabled);
+        public override bool TryRegisterOption(string path, MenuEventCallbackReceiver callbackReceiver, string[] optionNames, int defaultValue, string tooltip = "", bool enabled = true)
         {
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
@@ -825,10 +838,15 @@ namespace Varneon.VUdon.QuickMenu
 
             newToggle.Initialize(path, pathElements.LastOrDefault(), optionNames, callbackReceiver, defaultValue, tooltip);
 
+            if (!enabled) { newToggle.SetItemEnabledState(false); }
+
             return true;
         }
 
+        [Obsolete]
         public override bool TryRegisterSlider(string path, MenuEventCallbackReceiver callbackReceiver, float defaultValue, float minValue = 0, float maxValue = 1, int steps = 10, string unit = "%", string tooltip = "")
+            => TryRegisterSlider(path, callbackReceiver, defaultValue, minValue, maxValue, steps, unit, tooltip, enabled);
+        public override bool TryRegisterSlider(string path, MenuEventCallbackReceiver callbackReceiver, float defaultValue, float minValue = 0, float maxValue = 1, int steps = 10, string unit = "%", string tooltip = "", bool enabled = true)
         {
             string[] pathElements = PreRegisterItemPath(path, out string currentPath);
 
@@ -841,6 +859,8 @@ namespace Varneon.VUdon.QuickMenu
             items[folderIndex] = items[folderIndex].Add(newSlider);
 
             newSlider.Initialize(path, pathElements.LastOrDefault(), callbackReceiver, minValue, maxValue, steps, unit, defaultValue, tooltip);
+
+            if (!enabled) { newSlider.SetItemEnabledState(false); }
 
             return true;
         }
@@ -949,14 +969,12 @@ namespace Varneon.VUdon.QuickMenu
             return folders[folderIndex];
         }
 
+        [Obsolete]
         public override bool TryRegisterPage(string path, string tooltip = "")
+            => TryRegisterPage(path, tooltip, true);
+        public override bool TryRegisterPage(string path, string tooltip = "", bool enabled = true)
         {
-            return TryRegisterFolder(path, tooltip);
-        }
-
-        public bool TryRegisterFolder(string path, string tooltip = "")
-        {
-            AddFolder(path, tooltip);
+            AddFolder(path, tooltip, enabled);
 
             return true;
         }
@@ -1018,7 +1036,7 @@ namespace Varneon.VUdon.QuickMenu
             RebuildCompleteLayout();
         }
 
-        private void AddFolder(string path, string tooltip = "")
+        private void AddFolder(string path, string tooltip = "", bool enabled = true)
         {
             items = items.Add(new QuickMenuItem[0]);
 
@@ -1035,6 +1053,8 @@ namespace Varneon.VUdon.QuickMenu
 #endif
 
             newFolderItem.Initialize(path, string.IsNullOrWhiteSpace(tooltip) ? path.Contains("/") ? path.Substring(path.LastIndexOf('/') + 1) : path : tooltip);
+
+            if (!enabled) { newFolderItem.SetItemEnabledState(false); }
 
             items[folderIndex] = items[folderIndex].Add(newFolderItem);
 

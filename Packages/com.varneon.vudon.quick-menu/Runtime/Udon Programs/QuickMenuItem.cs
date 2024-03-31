@@ -51,6 +51,7 @@ namespace Varneon.VUdon.QuickMenu.Abstract
             disabledOptionColor = new Color(0.1f, 0.1f, 0.1f, 0.5f),
             disabledHighlightedOptionColor = new Color(0.2f, 0.3f, 0.3f, 0.5f);
 
+        [SerializeField, HideInInspector]
         private bool itemEnabled = true;
 
         private bool selected;
