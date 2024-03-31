@@ -112,7 +112,7 @@ namespace Varneon.VUdon.QuickMenu
             optionLabel.color = enabled ? defaultContentColor : disabledContentColor;
         }
 
-        internal void Initialize(string itemPath, string label, string[] options, MenuEventCallbackReceiver callbackReceiver, int defaultValue, string tooltip = "")
+        internal void Initialize(string itemPath, string label, string[] options, MenuEventCallbackReceiver callbackReceiver, int defaultValue, string tooltip)
         {
             RegisterAbstractProperties(itemPath, callbackReceiver, tooltip);
 

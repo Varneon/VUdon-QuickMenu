@@ -97,7 +97,7 @@ namespace Varneon.VUdon.QuickMenu
             rightLabel.color = color;
         }
 
-        internal void Initialize(string itemPath, string label, MenuEventCallbackReceiver callbackReceiver, bool defaultValue, string tooltip = "")
+        internal void Initialize(string itemPath, string label, MenuEventCallbackReceiver callbackReceiver, bool defaultValue, string tooltip)
         {
             RegisterAbstractProperties(itemPath, callbackReceiver, tooltip);
 

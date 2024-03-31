@@ -18,7 +18,7 @@ namespace Varneon.VUdon.QuickMenu
             return true;
         }
 
-        internal void Initialize(string itemPath, string label, MenuEventCallbackReceiver callbackReceiver, string tooltip = "")
+        internal void Initialize(string itemPath, string label, MenuEventCallbackReceiver callbackReceiver, string tooltip)
         {
             RegisterAbstractProperties(itemPath, callbackReceiver, tooltip);
 
