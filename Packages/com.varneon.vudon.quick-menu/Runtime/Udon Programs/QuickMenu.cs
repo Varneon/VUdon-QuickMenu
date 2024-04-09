@@ -66,6 +66,21 @@ namespace Varneon.VUdon.QuickMenu
             audioBack;
 
         [SerializeField]
+        private string[] inputPrompts;
+
+        [SerializeField]
+        private TextMeshProUGUI itemInputPrompt;
+
+        [SerializeField]
+        private CanvasGroup itemInputPromptCanvasGroup;
+
+        [SerializeField]
+        private TextMeshProUGUI selectionInputPrompt;
+
+        [SerializeField]
+        private TextMeshProUGUI backInputPrompt;
+
+        [SerializeField]
         private QuickMenuFolderContainer folderContainer;
 
         [SerializeField]
@@ -111,6 +126,8 @@ namespace Varneon.VUdon.QuickMenu
 
         private ItemType selectedItemType;
 
+        private int inputPromptModeOffset;
+
         private bool open;
 
         private int SelectedItemIndex
@@ -134,6 +151,10 @@ namespace Varneon.VUdon.QuickMenu
                     selectedItemType = selectedItem.Type;
 
                     tooltipText.text = selectedItem.Tooltip;
+
+                    itemInputPrompt.text = inputPrompts[inputPromptModeOffset + (int)selectedItemType + 1];
+
+                    itemInputPromptCanvasGroup.alpha = selectedItem.ItemEnabled ? 1f : 0.3f;
                 }
                 else
                 {
@@ -163,6 +184,8 @@ namespace Varneon.VUdon.QuickMenu
                         visibleItemRangeStartIndex += delta;
                     }
                 }
+
+                SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 1);
             }
         }
 
@@ -1105,6 +1128,8 @@ namespace Varneon.VUdon.QuickMenu
 
                         dominantRightHand = dominantHandType == HandType.RIGHT;
 
+                        inputPromptModeOffset = vrEnabled ? (dominantRightHand ? 8 : 16) : 0;
+
                         dominantTrackingDataType = dominantRightHand ? VRCPlayerApi.TrackingDataType.RightHand : VRCPlayerApi.TrackingDataType.LeftHand;
 
                         dominantPickupHand = dominantRightHand ? VRC_Pickup.PickupHand.Right : VRC_Pickup.PickupHand.Left;
@@ -1211,6 +1236,9 @@ namespace Varneon.VUdon.QuickMenu
             }
             else
             {
+                backInputPrompt.text = inputPrompts[inputPromptModeOffset];
+                selectionInputPrompt.text = inputPrompts[inputPromptModeOffset + 1];
+
                 SendCustomEventDelayedFrames(nameof(RebuildCompleteLayout), 1);
             }
 
