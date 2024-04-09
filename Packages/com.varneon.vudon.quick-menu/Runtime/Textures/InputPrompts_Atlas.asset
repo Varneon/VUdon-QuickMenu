@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
-  m_Name: Icon_InputPrompts
+  m_Name: InputPrompts_Atlas
   m_EditorClassIdentifier: 
   hashCode: 355245397
   material: {fileID: 2100000, guid: 07f98cea191fb3846974d9944460df60, type: 2}
