@@ -73,6 +73,11 @@ namespace Varneon.VUdon.QuickMenu
             RefreshHighlights();
 
             if (_callbackReceiver) { _callbackReceiver.OnMenuToggleValueChanged(_path, Value); }
+
+            if (_mirrorMenu)
+            {
+                _mirrorMenu.TrySetToggleValueWithoutNotify(_mirrorPath, _value);
+            }
         }
 
         private void RefreshHighlights()

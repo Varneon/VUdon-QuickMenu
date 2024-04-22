@@ -93,6 +93,11 @@ namespace Varneon.VUdon.QuickMenu
             RefreshGraphics();
 
             if (_callbackReceiver) { _callbackReceiver.OnMenuSliderValueChanged(_path, Value); }
+
+            if (_mirrorMenu)
+            {
+                _mirrorMenu.TrySetSliderValueWithoutNotify(_mirrorPath, _value);
+            }
         }
 
         public void OnBeginValueEdit()

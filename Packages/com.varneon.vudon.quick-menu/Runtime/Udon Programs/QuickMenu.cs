@@ -876,6 +876,15 @@ namespace Varneon.VUdon.QuickMenu
             return true;
         }
 
+        public override bool TryRegisterMirror(string path, MenuProvider mirrorMenu, string mirrorPath)
+        {
+            if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }
+
+            menuItem.RegisterMirror(mirrorMenu, mirrorPath);
+
+            return true;
+        }
+
         public override bool TrySetItemEnabled(string path, bool enabled, MenuEventCallbackReceiver callbackReceiver = null)
         {
             if (!TryGetMenuItem(path, out QuickMenuItem menuItem)) { return false; }

@@ -34,6 +34,12 @@ namespace Varneon.VUdon.QuickMenu.Abstract
         [SerializeField, HideInInspector]
         protected string _tooltip;
 
+        [SerializeField, HideInInspector]
+        protected MenuProvider _mirrorMenu;
+
+        [SerializeField, HideInInspector]
+        protected string _mirrorPath;
+
         private readonly Color
             defaultPanelColor = new Color(0f, 0f, 0f, 0.8f),
             highlightedPanelColor = new Color(0f, 0.4f, 0.4f, 1f),
@@ -96,6 +102,12 @@ namespace Varneon.VUdon.QuickMenu.Abstract
             label.color = enabled ? defaultContentColor : disabledContentColor;
 
             OnEnabledStateChanged(enabled);
+        }
+
+        internal void RegisterMirror(MenuProvider menu, string path)
+        {
+            _mirrorMenu = menu;
+            _mirrorPath = path;
         }
 
         protected virtual void OnSelectedStateChanged(bool selected) { }

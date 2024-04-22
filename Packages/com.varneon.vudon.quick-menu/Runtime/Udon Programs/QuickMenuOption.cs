@@ -76,6 +76,11 @@ namespace Varneon.VUdon.QuickMenu
             RefreshGraphics();
 
             if (_callbackReceiver) { _callbackReceiver.OnMenuOptionValueChanged(_path, Value); }
+
+            if (_mirrorMenu)
+            {
+                _mirrorMenu.TrySetOptionValueWithoutNotify(_mirrorPath, _value);
+            }
         }
 
         public void OnBeginValueEdit()
