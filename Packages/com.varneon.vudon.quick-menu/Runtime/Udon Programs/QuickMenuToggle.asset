@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: QuickMenuToggle
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: c522a50577032a642aa8dc62f0bee13c,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 45d92ff4524eb7440bf88dddee09d6d6,
     type: 2}
   udonAssembly: 
   assemblyError: 
