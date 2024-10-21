@@ -65,7 +65,7 @@ namespace Varneon.VUdon.QuickMenu
             audioAdjust,
             audioBack;
 
-        [SerializeField]
+        [SerializeField, NonReorderable]
         private string[] inputPrompts;
 
         [SerializeField]
