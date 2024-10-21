@@ -526,7 +526,7 @@ namespace Varneon.VUdon.QuickMenu
         {
             SelectedItemIndex--;
 
-            sfxSource.PlayOneShot(audioSelect);
+            if (audioSelect) { sfxSource.PlayOneShot(audioSelect); }
 
             TriggerAdjustHaptics();
         }
@@ -535,7 +535,7 @@ namespace Varneon.VUdon.QuickMenu
         {
             SelectedItemIndex++;
 
-            sfxSource.PlayOneShot(audioSelect);
+            if (audioSelect) { sfxSource.PlayOneShot(audioSelect); }
 
             TriggerAdjustHaptics();
         }
@@ -549,7 +549,7 @@ namespace Varneon.VUdon.QuickMenu
                 case ItemType.Folder:
                     OpenFolder(((QuickMenuFolderItem)selectedItem).Path);
 
-                    sfxSource.PlayOneShot(audioClick);
+                    if (audioClick) { sfxSource.PlayOneShot(audioClick); }
 
                     TriggerAdjustHaptics();
                     break;
@@ -560,7 +560,7 @@ namespace Varneon.VUdon.QuickMenu
                 case ItemType.Toggle:
                     if (selectedItem.OnClick())
                     {
-                        sfxSource.PlayOneShot(audioToggle);
+                        if (audioToggle) { sfxSource.PlayOneShot(audioToggle); }
 
                         TriggerSwitchHaptics();
                     }
@@ -581,7 +581,7 @@ namespace Varneon.VUdon.QuickMenu
             {
                 OpenFolder(currentFolderPath.Contains("/") ? currentFolderPath.Substring(0, currentFolderPath.LastIndexOf('/')) : string.Empty);
 
-                sfxSource.PlayOneShot(audioBack);
+                if (audioBack) { sfxSource.PlayOneShot(audioBack); }
 
                 TriggerAdjustHaptics();
             }
@@ -597,7 +597,7 @@ namespace Varneon.VUdon.QuickMenu
 
             if (selectedItem.OnClickRight())
             {
-                sfxSource.PlayOneShot(audioToggle);
+                if (audioToggle) { sfxSource.PlayOneShot(audioToggle); }
             }
         }
 
@@ -607,7 +607,7 @@ namespace Varneon.VUdon.QuickMenu
 
             if (selectedItem.OnClickLeft())
             {
-                sfxSource.PlayOneShot(audioToggle);
+                if (audioToggle) { sfxSource.PlayOneShot(audioToggle); }
             }
         }
 
@@ -617,7 +617,7 @@ namespace Varneon.VUdon.QuickMenu
 
             if (selectedItem.OnClickRight())
             {
-                sfxSource.PlayOneShot(audioAdjust);
+                if (audioAdjust) { sfxSource.PlayOneShot(audioAdjust); }
 
                 TriggerAdjustHaptics();
             }
@@ -629,7 +629,7 @@ namespace Varneon.VUdon.QuickMenu
 
             if (selectedItem.OnClickLeft())
             {
-                sfxSource.PlayOneShot(audioAdjust);
+                if (audioAdjust) { sfxSource.PlayOneShot(audioAdjust); }
 
                 TriggerAdjustHaptics();
             }
@@ -1221,7 +1221,9 @@ namespace Varneon.VUdon.QuickMenu
 
             canvas.SetActive(open);
 
-            sfxSource.PlayOneShot(open ? audioOpen : audioClose);
+            AudioClip toggleSFX = open ? audioOpen : audioClose;
+
+            if (toggleSFX) { sfxSource.PlayOneShot(toggleSFX); }
 
             if (!open)
             {
